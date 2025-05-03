@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(72)
+  email String @db.VarChar(72)
+  password String @db.VarChar(72)
+  phone_number String @unique @db.VarChar(16)
+  role Roles @default(USER)
+  status user_status? @default(ACTIVE)
+  is_verified Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders Order[]
+  reviews Review[]
+  carts Cart[]
+  adresses Address[]
+  @@map("users")
+}
+enum user_status {
+  ACTIVE
+  BANNED
+}
+
+enum Roles{
+  SUPERADMIN
+  USER
+  ADMIN
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique @db.VarChar(64)
+  createdAt DateTime @default(now())
+  products Product[]
+  @@map("categories")
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String @unique @db.VarChar(72)
+  description String? @db.Text
+  price Float
+  stock Int @default(0)
+  sold Int @default(0)
+  average_rating Float @default(0.0)
+  categoryId Int
+  createdAt DateTime @default(now())
+  imageUrl String? @db.VarChar(200)
+  category Category @relation(fields: [categoryId],references: [id],onDelete: Cascade)
+  order_Items OrderItem[]
+  reviews Review[]
+  carts Cart[]
+  @@map("products")
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  status Order_Status @default(PENDING)
+  total Float @default(0.0)
+  createdAt DateTime @default(now())
+  deliverRating Int?
+  deliveryFeedback String? @db.VarChar(100)
+  orderItems OrderItem[]
+  @@map("orders")
+}
+
+enum Order_Status {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+model OrderItem {
+  id Int @id @default(autoincrement())
+  orderId Int
+  productId Int
+  order Order @relation(fields: [orderId],references: [id])
+  product Product @relation(fields: [productId],references: [id])
+  rewiew Review[]
+  quantity Int
+  price Float
+  @@map("orderitems")
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+  content String @db.VarChar(200)
+  rating Int? @default(5)
+  userId Int
+  productId Int
+  orderItemId Int
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId],references: [id])
+  product Product @relation(fields: [productId],references: [id])
+  orderItem OrderItem @relation(fields: [orderItemId],references: [id])
+  @@unique([userId,orderItemId])
+  @@map("reviews")
+}
+
+model Cart {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) 
+  @@map("carts")
+}
+
+model Address {
+  id        Int     @id @default(autoincrement())
+  userId    Int @unique
+  region    String  
+  street    String  
+  city      String  
+  zipCode   String? 
+  phone     String  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
+}

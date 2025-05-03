@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "a1f0ec5a-4f6d-4ef1-b0c7-1631fbbf2914",
+		"name": "super_admin va admin uchun",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40691173"
+	},
+	"item": [
+		{
+			"name": "super-admin-login jarayoni",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone_number\":\"998 93 772 93 75\",\r\n    \"password\":\"qwerty_00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userni  id si yordamida admin qilish",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/super-admin/create-admin/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"super-admin",
+						"create-admin",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "barcha userlarni olish",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "barcha adminlarni olish",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/super-admin/admins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"super-admin",
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category yaratish",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Kitoblar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/category/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"category",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "product qo'shish",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Iphone 17 pro \",\r\n    \"description\":\"Appledan yana bir ajoyib telefonni kutib oling\",\r\n    \"price\":1200,\r\n    \"stock\":20,\r\n    \"categoryId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/product/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"product",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "barcha kategoriyalar umumiy mahsulot nraxi bilan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/category/total_sum",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"category",
+						"total_sum"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin buyurtmani id si orqali process qilish",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/admin/order/2/procces",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"admin",
+						"order",
+						"2",
+						"procces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin buyurtmani id si orqali shipped qilish",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/admin/order/2/procces",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"admin",
+						"order",
+						"2",
+						"procces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin buyurtmani id si orqali delivered qilish",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/admin/order/2/deliver",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"admin",
+						"order",
+						"2",
+						"deliver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hafatlik daromadni olish",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
