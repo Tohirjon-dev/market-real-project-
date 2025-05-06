@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, UseGuards } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
@@ -41,5 +46,14 @@ export class CategoryService {
   GROUP BY c.id, c.name
   ORDER BY totalValue DESC`;
     return result;
+  }
+  async removeCategoryById(id: number) {
+    const findCategory = await this.prisma.category.findUnique({
+      where: { id },
+    });
+    if (!findCategory)
+      throw new NotFoundException('Bunday id li kategoriya topilmadi');
+    await this.prisma.category.delete({ where: { id } });
+    return { message: `${findCategory.name} kategoriyasi o'chirib yuborildi` };
   }
 }

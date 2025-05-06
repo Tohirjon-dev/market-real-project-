@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: nestuser
+      POSTGRES_PASSWORD: nestpass
+      POSTGRES_DB: nestdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  app:
+    build: .
+    container_name: nestjs_container
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: 'postgresql://nestuser:nestpass@db:5432/nestdb'
+    ports:
+      - '4000:4000'
+    command: >
+      sh -c "
+      npx prisma migrate deploy &&
+      node dist/main"
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:

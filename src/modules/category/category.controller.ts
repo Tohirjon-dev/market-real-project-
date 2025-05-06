@@ -16,10 +16,10 @@ import { RolesDeco } from 'src/common/decorators/roles.decorator';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 @UseGuards(AuthGuard, RolesGuard)
-@RolesDeco('ADMIN')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+  @RolesDeco('ADMIN')
   @Post('create')
   async createCategory(@Body() body: CreateCategoryDto) {
     try {
@@ -44,10 +44,20 @@ export class CategoryController {
       throw new HttpException(error.message, error.status || 500);
     }
   }
+  @RolesDeco('ADMIN')
   @Get('total_sum')
   async getTotalAmountByCategory() {
     try {
       return await this.categoryService.getTotalAmountByCategory();
+    } catch (error) {
+      throw new HttpException(error.message, error.status || 500);
+    }
+  }
+  @RolesDeco('ADMIN')
+  @Delete('delete/:id')
+  async removeById(@Param('id') id: string) {
+    try {
+      return await this.categoryService.removeCategoryById(+id);
     } catch (error) {
       throw new HttpException(error.message, error.status || 500);
     }
